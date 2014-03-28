@@ -25,7 +25,7 @@ public:
 
 Node* dfs(Node *pred, Node *curNode, int& swap) {
         if(curNode == NULL)
-                return 0;
+                return NULL;
         Node *p = dfs(pred, curNode->left, swap);
         if(!p) 
             p = pred;
