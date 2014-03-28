@@ -1,4 +1,3 @@
-
 template<typename T>
 int partition(vector<T>& a,int left,int right)
 {
@@ -128,3 +127,57 @@ void  merge (int list1[ ] , int size1 , int list2[ ] , int size2 , int list3[ ])
         array[i] = temp[i];
       }
 }
+
+
+// 数组中有多少个前后颠倒的对，例如 1 3 4 2 有2个
+// merge sort, count it in merge
+
+void  merge (int list1[ ] , int size1 , int list2[ ] , int size2 , int list3[ ], int& disorder_count)
+{
+    int i1, i2, i3;    
+    i1 = 0; i2 = 0; i3 = 0;
+    /* while both lists are non-empty */
+    while (i1 < size1 && i2 < size2) {
+        if (list1[i1] < list2[i2]) {
+            list3[i3++] = list1[i1++];
+            disorder_count += i2;
+        } 
+        else {
+            list3[i3++] = list2[i2++];
+        }
+    }
+    while (i1 < size1) {   
+        /* copy remainder of list1 */
+        list3[i3++] = list1[i1++];
+        disorder_count += i2;
+    }
+    while (i2 < size2) { 
+        /* copy remainder of list2 */
+        list3[i3++] = list2[i2++];
+    }
+}
+
+  void merge_sort (int array[], int len, int& disorder_count)
+{
+    if (len< 2) {
+        return;
+    }
+
+    vector<int> temp(len);
+    int mid, i;    
+    mid = len/ 2;
+    merge_sort(array, mid, disorder_count);
+    merge_sort(array + mid, len - mid, disorder_count);
+    merge (array, mid, array + mid, len- mid, temp, disorder_count);
+    for (i = 0; i < len; i++) {
+        array[i] = temp[i];
+      }
+}
+
+int get_disorder_num(int array[], int len)
+{
+  int disorder_count = 0;
+  merge_sort(aray, len, disorder_count);
+  return disorder_count;
+}
+
