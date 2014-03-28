@@ -1,5 +1,4 @@
 
-
 template<typename T>
 int partition(vector<T>& a,int left,int right)
 {
@@ -87,3 +86,45 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 
+
+
+
+void  merge (int list1[ ] , int size1 , int list2[ ] , int size2 , int list3[ ])
+{
+    int i1, i2, i3;    
+    i1 = 0; i2 = 0; i3 = 0;
+    /* while both lists are non-empty */
+    while (i1 < size1 && i2 < size2) {
+        if (list1[i1] < list2[i2]) {
+            list3[i3++] = list1[i1++];
+        } 
+        else {
+            list3[i3++] = list2[i2++];
+        }
+    }
+    while (i1 < size1) {   
+        /* copy remainder of list1 */
+        list3[i3++] = list1[i1++];
+    }
+    while (i2 < size2) { 
+        /* copy remainder of list2 */
+        list3[i3++] = list2[i2++];
+    }
+}
+
+  void merge_sort (int array[], int len)
+{
+    if (len< 2) {
+        return;
+    }
+
+    vector<int> temp(len);
+    int mid, i;    
+    mid = len/ 2;
+    merge_sort(array, mid);
+    merge_sort(array + mid, len - mid);
+    merge (array, mid, array + mid, len- mid, temp);
+    for (i = 0; i < len; i++) {
+        array[i] = temp[i];
+      }
+}
