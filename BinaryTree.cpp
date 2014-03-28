@@ -1,4 +1,3 @@
-
 bool isBalanced (TreeNode* root) {
     return balancedHeight(root) >= 0;
 }
@@ -39,5 +38,5 @@ Node* dfs(Node *pred, Node *curNode, int& swap) {
 }
 
 
-}
+};
 
