@@ -40,3 +40,46 @@ Node* dfs(Node *pred, Node *curNode, int& swap) {
 
 };
 
+
+// Lowest Common Ancestor
+// the following way has a bug, if only one in p and q is not child of root, it still return.
+
+
+Node *LCA(Node *root,Node *p,Node *q){
+  if(!root) 
+    return NULL;
+  if(root == p || root == q)
+    return root;
+  Node *L = LCA(root->left,p,q);
+  Node *R = LCA(root->right,p,q);
+  if(L && R)
+    return root;  // if p and q are on both sides
+  return   L ? L:R;  // either one of p,q is on one side OR p,q is not in L&R subtrees
+}
+
+// 
+
+Node *LCA_Correct(Node *root,Node *p,Node *q){
+  if(!root || !p || !q)
+    return NULL;
+  Node * lca = LCA(root, p, q);
+  if(lca == p)
+    return IsFather(p,q) ? p : NULL;
+  else if(lca == q)
+    return IsFather(q,p) ? q : NULL;
+
+  return lca;
+}
+
+
+// for  BST
+Node *LCA(Node *root,Node *p,Node *q){
+  if(!root || !p || !q)
+    return NULL;
+  if(max(p->data,q->data) < root->data)
+    return LCA(root->left, p, q);
+  else if (min(p->data,q->data) > root->data)
+    return LCA(root->right,p,q);
+  else
+    return root;
+}
