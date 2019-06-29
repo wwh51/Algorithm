@@ -57,3 +57,59 @@ public class Solution
             return true;
         }
     } 
+
+//O(maxpos)
+public class Solution2
+    {
+
+        public bool CarPooling(int[][] trips, int capacity)
+        {
+            var len = trips.Length;
+            if (len == 0)
+                return true;
+            if (len == 1)
+                return trips[0][0] <= capacity;
+            var maxPos = trips.Max(c => c[2]) + 1;
+
+
+            var seats = Enumerable.Repeat(0, maxPos).ToArray();
+
+            for (int i = 0; i < len; i++)
+            {
+                seats[trips[i][1]] += trips[i][0];
+                seats[trips[i][2]] -= trips[i][0];
+            }
+
+            for (int i = 1; i < maxPos; i++)
+            {
+                seats[i] += seats[i - 1];
+                if (seats[i] > capacity)
+                    return false;
+            }
+            return true;
+        }
+    }
+
+
+//O(maxPos *N)
+public class Solution3
+    {
+
+        public bool CarPooling(int[][] trips, int capacity)
+        {
+            
+            var maxPos = trips.Max(c => c[2]) 
+            for (int i = 0; i <= maxPos; i++)
+            {
+                int nCount = 0;
+                foreach (var trip in trips)
+                {
+                    if (trip[1] <= i && trip[2] > i)
+                        nCount += trip[0];
+                    if (nCount > capacity)
+                        return false;
+                }
+            }
+            return true;
+        }
+    }
